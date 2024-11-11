@@ -1,0 +1,51 @@
+const int ledPin1 = 12;
+const int ledPin2 = 9;
+const int ledPin3 = 3;
+int value = 0;
+int directionPin = 12;
+int pwmPin = 4;
+int brakePin = 8;
+
+void setup() {
+pinMode(directionPin, OUTPUT);
+pinMode(pwmPin, OUTPUT);
+pinMode(brakePin, OUTPUT);
+
+  // Establish pins to be output and lights to be off
+  pinMode(ledPin1, OUTPUT);
+  pinMode(ledPin2, OUTPUT);
+  pinMode(ledPin3, OUTPUT);
+  digitalWrite(ledPin1, LOW);
+  digitalWrite(ledPin2, LOW);
+  digitalWrite(ledPin3, LOW);
+
+  Serial.begin(9600);
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+  if (!Serial.available()) return;
+
+  while(Serial.available()){
+    value = Serial.read();            // Assigns the value sent from UE4 to the variable called value
+
+    // If the value is between 1-50
+    if (value >0 && value <=50){
+      digitalWrite(ledPin1, HIGH);
+      digitalWrite(ledPin2, LOW);
+      digitalWrite(ledPin3, LOW);
+    }
+    // If the value is between 50-99
+    if (value >=50 && value <100){
+      digitalWrite(ledPin1, LOW);
+      digitalWrite(ledPin2, HIGH);
+      digitalWrite(ledPin3, LOW);
+    }
+    // If the value is 100+
+    if (value >=100){
+      digitalWrite(ledPin1, LOW);
+      digitalWrite(ledPin2, LOW);
+      digitalWrite(ledPin3, HIGH);
+    }
+  }
+}
