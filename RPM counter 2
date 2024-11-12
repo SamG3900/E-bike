@@ -1,0 +1,23 @@
+#include <LiquidCrystal.h> 
+int Contrast=100;
+LiquidCrystal lcd(40,41,42,43,44,45,46);  
+
+int Pin = 2; // Hall sensor at pin 2
+
+unsigned long rpm = 0;
+unsigned long duration;
+
+void setup() {
+  pinMode(Pin, INPUT); //Sets sensor as input
+  analogWrite(6,Contrast);
+  lcd.begin(16, 2);
+}
+void loop()
+{
+  duration = pulseIn(Pin, FALLING, 500000); //times the amount of microseconds the motor is not timing IR, Times out after 100000 uS. Raise the timeout for slower RPM readings. .5 second
+  rpm = 60000.0/duration*1000; //See above
+ 
+  serial.clear();  
+  serial.print("Engine RPM ");
+  serial.println(rpm);
+}
