@@ -28,6 +28,7 @@ void loop() {
 
   while(Serial.available()){
     value = Serial.read();            // Assigns the value sent from UE4 to the variable called value
+    directionState = !directionState;
 
     // If the value is between 1-50
     if (value >0 && value <=50){
